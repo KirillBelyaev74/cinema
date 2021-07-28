@@ -7,13 +7,15 @@ public class User {
     private long id;
     private String name;
     private String password;
+    private Role roles;
 
     public User() {
     }
 
-    public User(String name, String password) {
+    public User(String name, String password, Role roles) {
         this.name = name;
         this.password = password;
+        this.roles = roles;
     }
 
     public long getId() {
@@ -40,23 +42,28 @@ public class User {
         this.password = password;
     }
 
+    public Role getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Role roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id
                 && Objects.equals(name, user.name)
-                && Objects.equals(password, user.password);
+                && Objects.equals(password, user.password)
+                && roles == user.roles;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password);
+        return Objects.hash(id, name, password, roles);
     }
 
     @Override
@@ -64,7 +71,8 @@ public class User {
         return "User { "
                 + "id = " + id
                 + ", name = '" + name + '\''
-                + ", surname = '" + password + '\''
+                + ", password = '" + password + '\''
+                + ", roles = " + roles
                 + '}';
     }
 }

@@ -1,6 +1,7 @@
 package ru.job4j.cinema.repository.inMemory;
 
 import org.springframework.stereotype.Repository;
+import ru.job4j.cinema.model.Role;
 import ru.job4j.cinema.model.User;
 
 import java.util.Collection;
@@ -16,9 +17,9 @@ public class UserRepository {
     private final AtomicLong idIncrement = new AtomicLong(0);
 
     {
-        User user = new User("user", "user");
+        User user = new User("user", "user", Role.USER);
         user.setId(idIncrement.incrementAndGet());
-        User admin = new User("admin", "admin");
+        User admin = new User("admin", "admin", Role.ADMIN);
         admin.setId(idIncrement.incrementAndGet());
         users.put(user.getId(), user);
         users.put(admin.getId(), admin);
@@ -40,5 +41,9 @@ public class UserRepository {
 
     public User findById(long id) {
         return users.get(id);
+    }
+
+    public User findByName(String name) {
+        return users.values().stream().filter(u -> u.getName().equals(name)).findAny().get();
     }
 }
