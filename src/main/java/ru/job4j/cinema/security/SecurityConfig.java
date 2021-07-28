@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -26,8 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/users/**").hasAnyRole("ADMIN")
                 .antMatchers("/videos/**").hasAnyRole("ADMIN", "USER")
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/videos/");
+                .and().formLogin()
+                .defaultSuccessUrl("/videos/")
+                .and().rememberMe().key("cinema 27.07.2021").alwaysRemember(true).tokenValiditySeconds(60 * 60 * 24)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 }
